@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const Tareaform = (props) => {
 	const [inputText, setInputText] = useState("");
+	const [validacion, setValidacion] = useState("");
 
 	const manejarFormulario = (evento) => {
 		setInputText(evento.target.value);
@@ -9,20 +10,22 @@ const Tareaform = (props) => {
 
 	const agregar = (evento) => {
 		evento.preventDefault();
-		props.nuevaTarea(inputText);
+		if (inputText.trim() !== "") {
+			props.nuevaTarea(inputText);
+			setInputText("");
+			setValidacion(true);
+		} else setValidacion(false);
 	};
 
 	return (
-		<div>
+		<div className="principal">
 			<form className="form" onSubmit={agregar}>
-				<span>Tarea</span>
-
 				<input
 					type="text"
 					value={inputText}
 					onChange={manejarFormulario}
+					placeholder={"Añade tu tarea"}
 				/>
-				<button>Añadir</button>
 			</form>
 		</div>
 	);
